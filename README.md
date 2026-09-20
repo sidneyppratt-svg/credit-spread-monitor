@@ -1,69 +1,137 @@
 # Credit Spread Monitor
-### Cross-Asset Credit Research | Sidney Pratt
+### Fixed Income Credit Research Tool | Sidney Pratt
+
+---
 
 ## Overview
-This model tracks the credit spread between High Yield bonds (HYG) 
-and Investment Grade bonds (LQD) to detect building stress in credit 
-markets. The spread is converted into a stress score from 1 to 5 and 
-monitored daily using 16 years of real market data from 2010 to 2026.
+This model tracks the credit spread between High Yield bonds (HYG)
+and Investment Grade bonds (LQD) to detect building stress in credit
+markets. The spread is converted into a stress score from 1 to 5
+using 16 years of real daily data from 2010 to 2026.
+
+When investors flee from risky High Yield bonds toward safer Investment
+Grade bonds the spread widens — one of the earliest and most reliable
+warning signals of financial stress. This model detects that widening
+in real time and classifies it against historical context.
+
+---
+
+## Key Features
+- Live High Yield and Investment Grade bond data downloaded on every run
+- Credit stress score from 1 (very calm) to 5 (high stress)
+- Percentile ranking against full history since 2010
+- 21-day rolling spread smoothing to filter daily noise
+- Key stress period identification and annotation
+- Two chart visualization — raw spread and stress score over time
+- Dynamic signal and interpretation that updates with every run
+
+---
+
+## Why It Matters
+Credit spreads are one of the most important leading indicators in
+fixed income markets. When High Yield bonds underperform Investment
+Grade bonds it signals that investors are pulling back from risk —
+often weeks or months before stress shows up in equity markets.
+
+- **Credit traders** watch spread widening as an early warning signal
+- **Rates traders** use credit stress to anticipate Fed policy response
+- **Portfolio managers** reduce risk exposure when spreads widen sharply
+- **Risk managers** use spread levels to size positions and hedges
+
+The 2008 financial crisis, 2011 European debt crisis, 2016 oil crash,
+2020 COVID crash, and 2022 Fed rate hike cycle all showed up first
+in credit spreads before hitting equity markets.
+
+---
 
 ## Methodology
-- **Data:** 16 years of daily price data (2010–2026)
-- **Assets:** HYG (High Yield), LQD (Investment Grade), SPY (Stocks)
-- **Signal:** 21-day rolling return difference between LQD and HYG
-- **Stress Score:** 1 (Very Calm) to 5 (High Stress)
-- **Historical context:** Percentile rank vs all readings since 2010
+The model downloads daily price data for HYG (High Yield) and LQD
+(Investment Grade). It calculates 21-day rolling mean returns for
+each — smoothing daily noise to reveal trends.
 
-## Current Reading (September 17, 2026)
+The credit spread is calculated as LQD returns minus HYG returns
+multiplied by 10,000 to convert to basis points. A wider spread
+means High Yield is underperforming Investment Grade — a stress signal.
 
-| Metric | Value |
-|--------|-------|
-| Credit Spread | 1.2 basis points |
-| Stress Score | 4 out of 5 |
-| Status | ELEVATED |
-| Percentile Rank | Higher than 63% of all readings since 2010 |
+The spread is ranked as a percentile against all historical readings
+in the selected date range and converted into a stress score from 1
+to 5 using equal quintile bins.
 
-## Stress Scale
+**This methodology does not change regardless of the date range selected.**
 
-| Score | Status | Meaning |
-|-------|--------|---------|
+---
+
+## Stress Score Classification
+
+| Score | Label | Interpretation |
+|-------|-------|----------------|
 | 1 | Very Calm | Credit markets extremely relaxed |
-| 2 | Calm | Normal market conditions |
+| 2 | Calm | Normal credit conditions |
 | 3 | Moderate | Some caution warranted |
-| 4 | Elevated | Credit stress building |
-| 5 | High Stress | Significant credit risk detected |
+| 4 | Elevated | Credit stress building — watch closely |
+| 5 | High Stress | Significant credit risk — reduce exposure |
 
-## Key Stress Periods Detected (2010–2026)
-- **2011** — European Sovereign Debt Crisis
-- **2016** — Oil Price Crash & China Slowdown
-- **2020** — COVID-19 Pandemic Crash — largest spike on record
-- **2022** — Federal Reserve Rate Hike Cycle
-- **2026** — Current Elevated Stress Period
+---
 
-## Combined Signal
-When combined with the Multi-Asset Regime Detector:
+## Asset Classes Covered
 
-| Model | Signal |
-|-------|--------|
-| Regime Detector | RISK-ON (but cautious) |
-| Credit Monitor | ELEVATED stress (4/5) |
-| Gold Signal | Outperforming (+2.58%) |
+| Asset | Ticker | What It Represents |
+|-------|--------|--------------------|
+| High Yield Bonds | HYG | Loans to riskier companies — junk bonds |
+| Investment Grade Bonds | LQD | Loans to safer, higher quality companies |
+| US Equities | SPY | S&P 500 — used for context and comparison |
 
-**Conclusion:** Two independent AI models flagging elevated caution 
-simultaneously. Markets appear calm on the surface but credit and 
-gold signals suggest building stress underneath.
+---
+
+## Dynamic Results
+*The following update every time the model is run based on selected dates.*
+
+**Signal** — Current stress score from 1 to 5 based on the latest
+spread reading relative to the full history in the selected date range.
+
+**Strategy Signal** — Plain language guidance based on current stress
+score — from very calm to high stress.
+
+**Results** — Current spread in basis points, stress score, and
+percentile rank versus full history since 2010.
+
+**Summary & Key Findings** — Plain language explanation of what the
+current credit spread level means for markets.
+
+**What to Watch** — Specific indicators to monitor given the current
+stress level including spread direction, equity correlation, and
+Fed policy signals.
+
+**Historical Context** — Key stress periods identified including
+2011 EU Crisis, 2016 Oil Crash, 2020 COVID, and 2022 Fed hikes.
+
+**Charts** — Two charts: credit spread over time with high and low
+stress zones highlighted, and stress score over time with color
+coded severity bands.
+
+---
 
 ## Tools & Technologies
 - **Python** — core programming language
-- **scikit-learn** — stress score calculation
-- **pandas / numpy** — data manipulation
-- **yfinance** — market data
-- **matplotlib** — visualization
+- **yfinance** — live bond and equity price data
+- **pandas & numpy** — data processing and calculations
+- **matplotlib** — chart generation
+- **Streamlit** — live interactive web application
 - **Google Colab** — development environment
 
-## Performance Charts
-![Credit Spread Charts](credit_spread_charts.png)
+---
 
-## Author
-Sidney Pratt | Cross-Asset Credit Research  
+## Full Research Notebook
+View the complete Credit Spread Monitor including all code, charts,
+stress score analysis, and historical period breakdown:
+
 github.com/sidneyppratt-svg/credit-spread-monitor
+
+---
+
+## About
+Sidney Pratt is a Finance and Economics student at Western Michigan
+University and an ACHA D1 hockey player building a quantitative
+research portfolio targeted at fixed income trading internships.
+
+sidneyppratt.com | github.com/sidneyppratt-svg
